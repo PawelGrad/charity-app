@@ -5,8 +5,10 @@ import pl.coderslab.charity.Model.Category.CategoryEntity;
 import pl.coderslab.charity.Model.Institution.InstitutionEntity;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 
 @Entity
@@ -17,10 +19,14 @@ public class DonationEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
+   // @Min(1)
     private int quantity;
 
-    @ManyToMany(mappedBy ="donations", fetch = FetchType.EAGER)
+    @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "category_donation",
+            joinColumns = { @JoinColumn(name = "donation_id")},
+            inverseJoinColumns = {@JoinColumn(name = "category_id")})
     private List<CategoryEntity> categories;
 
     @ManyToOne
@@ -36,7 +42,8 @@ public class DonationEntity {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate pickUpDate;
 
-    private LocalDateTime pickUpTime;
+    @DateTimeFormat(iso = DateTimeFormat.ISO.TIME)
+    private LocalTime pickUpTime;
 
     private String pickUpComment;
 
@@ -107,11 +114,11 @@ public class DonationEntity {
         this.pickUpDate = pickUpDate;
     }
 
-    public LocalDateTime getPickUpTime() {
+    public LocalTime getPickUpTime() {
         return pickUpTime;
     }
 
-    public void setPickUpTime(LocalDateTime pickUpTime) {
+    public void setPickUpTime(LocalTime pickUpTime) {
         this.pickUpTime = pickUpTime;
     }
 
@@ -121,6 +128,22 @@ public class DonationEntity {
 
     public void setPickUpComment(String pickUpComment) {
         this.pickUpComment = pickUpComment;
+    }
+
+    @Override
+    public String toString() {
+        return "DonationEntity{" +
+                "id=" + id +
+                ", quantity=" + quantity +
+                ", categories=" + categories +
+                ", institution=" + institution +
+                ", street='" + street + '\'' +
+                ", city='" + city + '\'' +
+                ", zipCode='" + zipCode + '\'' +
+                ", pickUpDate=" + pickUpDate +
+                ", pickUpTime=" + pickUpTime +
+                ", pickUpComment='" + pickUpComment + '\'' +
+                '}';
     }
 }
 

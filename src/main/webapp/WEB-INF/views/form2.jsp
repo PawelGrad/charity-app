@@ -70,22 +70,29 @@
     </div>
 
     <div class="form--steps-container">
-        <div class="form--steps-counter">Krok <span>1</span>/4</div>
+        <div class="form--steps-counter">Krok <span>2</span>/4</div>
 
-            <form:form method="post" modelAttribute="donation" action="/form2">
+        <form:form method="post" modelAttribute="donation">
 
-            <div data-step="1" class="active">
-                <h3>Zaznacz co chcesz oddać:</h3>
+            <!-- STEP 2 -->
+            <div data-step="2" class="active">
+                <h3>Podaj liczbę 60l worków, w które spakowałeś/aś rzeczy:</h3>
+                <form:checkboxes path="categories" items="${categories}" itemLabel="name" element="div hidden class='form-group'"  />
+                <div class="form-group form-group--inline">
 
-                <form:checkboxes path="categories" items="${categories}" itemLabel="name" element="div class='form-group'"  />
+                    <label>
+                        Liczba 60l worków:
+                        <form:input path="quantity"/>
+                    </label>
+                </div>
 
                 <div class="form-group form-group--buttons">
-                <input type="submit" class="btn btn-primary" value="Save">
+                    <input type="submit" class="btn prev-step" value="Wstecz" formaction="/form">
+                    <input type="submit" class="btn next-step" value="Dalej" formaction="/form3">
                 </div>
             </div>
+        </form:form>
 
-            </form:form>
-        </div>
     </div>
 </section>
 

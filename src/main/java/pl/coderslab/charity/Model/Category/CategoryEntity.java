@@ -15,11 +15,7 @@ public class CategoryEntity {
 
     private String name;
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinTable(
-            name = "category_donation",
-            joinColumns = { @JoinColumn(name = "category_id")},
-            inverseJoinColumns = {@JoinColumn(name = "donation_id")})
+    @ManyToMany(mappedBy ="categories", fetch = FetchType.EAGER)
     private List<DonationEntity> donations;
 
 

@@ -70,22 +70,64 @@
     </div>
 
     <div class="form--steps-container">
-        <div class="form--steps-counter">Krok <span>1</span>/4</div>
+        <div class="form--steps-counter">Krok <span>4</span>/4</div>
 
-            <form:form method="post" modelAttribute="donation" action="/form2">
+        <form:form method="post" modelAttribute="donation">
 
-            <div data-step="1" class="active">
-                <h3>Zaznacz co chcesz oddać:</h3>
-
-                <form:checkboxes path="categories" items="${categories}" itemLabel="name" element="div class='form-group'"  />
-
-                <div class="form-group form-group--buttons">
-                <input type="submit" class="btn btn-primary" value="Save">
-                </div>
+            <div hidden>
+                <form:checkboxes path="categories" items="${categories}" itemLabel="name" />
+                <form:input path="quantity" />
+                <form:select path="institution" items="${institutions}"/>
             </div>
+            <!-- STEP 2 -->
+            <div data-step="4" class="active">
+                <h3>Podaj adres oraz termin odbioru rzecz przez kuriera:</h3>
 
-            </form:form>
-        </div>
+                <div class="form-section form-section--columns">
+                    <div class="form-section--column">
+                        <h4>Adres odbioru</h4>
+                        <div class="form-group form-group--inline">
+                            <label> Ulica <form:input path="street" /> </label>
+                        </div>
+
+                        <div class="form-group form-group--inline">
+                            <label> Miasto <form:input path="city"/> </label>
+                        </div>
+
+                        <div class="form-group form-group--inline">
+                            <label>
+                                Kod pocztowy <form:input path="zipCode" />
+                            </label>
+                        </div>
+
+                    </div>
+
+                    <div class="form-section--column">
+                        <h4>Termin odbioru</h4>
+                        <div class="form-group form-group--inline">
+                            <label> Data <form:input type="date" path="pickUpDate" /> </label>
+                        </div>
+
+                        <div class="form-group form-group--inline">
+                            <label> Godzina <form:input type="time" path="pickUpTime" /> </label>
+                        </div>
+
+                        <div class="form-group form-group--inline">
+                            <label>
+                                Uwagi dla kuriera
+                                <form:textarea path="pickUpComment"/>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group form-group--buttons">
+                    <input type="submit" class="btn prev-step" value="Wstecz" formaction="/form3">
+                    <input type="submit" class="btn next-step" value="Dalej" formaction="/saveForm">
+                </div>
+
+            </div>
+        </form:form>
+
     </div>
 </section>
 
