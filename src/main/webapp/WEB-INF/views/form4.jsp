@@ -53,31 +53,21 @@
     <div class="form--steps-instructions">
         <div class="form--steps-container">
             <h3>Ważne!</h3>
-            <p data-step="1" class="active">
-                Uzupełnij szczegóły dotyczące Twoich rzeczy. Dzięki temu będziemy
-                wiedzieć komu najlepiej je przekazać.
+            <p data-step="4" class="active">
+            Podaj adres oraz termin odbioru rzeczy.
             </p>
-            <p data-step="2">
-                Uzupełnij szczegóły dotyczące Twoich rzeczy. Dzięki temu będziemy
-                wiedzieć komu najlepiej je przekazać.
-            </p>
-            <p data-step="3">
-                Wybierz jedną, do
-                której trafi Twoja przesyłka.
-            </p>
-            <p data-step="4">Podaj adres oraz termin odbioru rzeczy.</p>
         </div>
     </div>
 
     <div class="form--steps-container">
         <div class="form--steps-counter">Krok <span>4</span>/4</div>
 
-        <form:form method="post" modelAttribute="donation">
+        <form:form method="post" modelAttribute="donation" id="form" action="/saveForm">
 
             <div hidden>
                 <form:checkboxes path="categories" items="${categories}" itemLabel="name" />
                 <form:input path="quantity" />
-                <form:select path="institution" items="${institutions}"/>
+                <form:select path="institution" items="${institutions}" itemLabel="name"/>
             </div>
             <!-- STEP 2 -->
             <div data-step="4" class="active">
@@ -120,13 +110,13 @@
                         </div>
                     </div>
                 </div>
+                </form:form>
                 <div class="form-group form-group--buttons">
-                    <input type="submit" class="btn prev-step" value="Wstecz" formaction="/form3">
-                    <input type="submit" class="btn next-step" value="Dalej" formaction="/saveForm">
+                    <button type="button" class="btn btn-primary" id="submitButton">Dalej</button>
                 </div>
 
             </div>
-        </form:form>
+
 
     </div>
 </section>
@@ -135,6 +125,47 @@
     <%@include file="footer.jsp" %>
 </footer>
 
-<script src="js/app.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<script>
+
+
+    $("#submitButton").on("click", function(){
+        var street = document.getElementById("street").value;
+        var city = document.getElementById("city").value;
+        var zipCode = document.getElementById("zipCode").value;
+        var pickUpDate = document.getElementById("pickUpDate").value;
+        var pickUpTime = document.getElementById("pickUpTime").value;
+        var comment =  document.getElementById("pickUpComment").value;
+        if(street !== '' &&
+            city !== '' &&
+            zipCode !== '' &&
+            pickUpDate !== '' &&
+            pickUpTime !== '' ) {
+            var a = [];
+            $("input[name='categories']:checked").each(function () {
+                a.push($("label[for="+$(this).attr('id')+"]").text())
+            });
+            var categories = '';
+
+            for(var i=0; i<a.length; i++) {
+                categories = categories.concat(a[i] + '\n');
+            }
+
+
+            if (confirm('Podsumowanie\n\n' + 'Wybrane kategorie: \n' + categories + '\n' +
+                'Ilosc worków: ' + $("input[name='quantity']").val() + '\n\n' +
+                    'Wybrana organizacja:\n' + $("option[selected='selected']").text() + '\n\n'+
+                    'Odbiór: \n' + street + '\n' + city + '\n' + zipCode + '\n' + pickUpDate + '\n' + pickUpTime + '\n\n' +
+                    'Komentarz: \n' + comment)) {
+                document.getElementById("form").submit();
+            } else {
+
+            }
+
+        }
+    });
+</script>
+
 </body>
 </html>

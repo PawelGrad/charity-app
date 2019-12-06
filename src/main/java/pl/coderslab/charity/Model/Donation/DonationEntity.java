@@ -1,15 +1,18 @@
 package pl.coderslab.charity.Model.Donation;
 
+import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 import pl.coderslab.charity.Model.Category.CategoryEntity;
 import pl.coderslab.charity.Model.Institution.InstitutionEntity;
 
 import javax.persistence.*;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
+
 
 @Entity
 @Table(name = "donations")
@@ -19,7 +22,7 @@ public class DonationEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-   // @Min(1)
+    @Min(1)
     private int quantity;
 
     @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
@@ -27,6 +30,7 @@ public class DonationEntity {
             name = "category_donation",
             joinColumns = { @JoinColumn(name = "donation_id")},
             inverseJoinColumns = {@JoinColumn(name = "category_id")})
+    @NotEmpty
     private List<CategoryEntity> categories;
 
     @ManyToOne
@@ -148,18 +152,3 @@ public class DonationEntity {
 }
 
 
-
-
-//    id
-//    quantity (liczba worków)
-//    categories (lista obiektów typu Category), pamiętaj o odpowiedniej adnotacji
-//    institution (obiekt typu Institution), pamiętaj o odpowiedniej adnotacji.
-//        street
-//        city
-//        zipCode
-//        pickUpDate
-//        pickUpTime
-//        pickUpComment
-
-//    @DateTimeFormat(pattern = "yyyy-MM-dd")
-//    private LocalDate pickUpDate;

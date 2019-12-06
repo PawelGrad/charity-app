@@ -1,10 +1,12 @@
 package pl.coderslab.charity.Model.Institution;
 
 
+import lombok.Data;
 import pl.coderslab.charity.Model.Donation.DonationEntity;
 
 import javax.persistence.*;
 import java.util.List;
+
 
 @Entity
 @Table(name = "institiutions")
@@ -20,7 +22,6 @@ public class InstitutionEntity {
 
     @OneToMany(mappedBy = "institution")
     private List<DonationEntity> donations;
-
 
     public InstitutionEntity() {
     }
@@ -47,5 +48,13 @@ public class InstitutionEntity {
 
     public void setDescritpion(String descritpion) {
         this.descritpion = descritpion;
+    }
+
+    public List<DonationEntity> getDonations() {
+        return donations;
+    }
+
+    public void setDonations(List<DonationEntity> donations) {
+        this.donations = donations;
     }
 }

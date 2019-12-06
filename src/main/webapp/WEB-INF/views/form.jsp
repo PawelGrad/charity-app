@@ -6,13 +6,10 @@
 <!DOCTYPE html>
 <html lang="pl">
 <head>
-
-
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
     <title>Document</title>
-
     <link rel="stylesheet" href="<c:url value="resources/css/style.css"/>"/>
 </head>
 <body>
@@ -57,34 +54,26 @@
                 Uzupełnij szczegóły dotyczące Twoich rzeczy. Dzięki temu będziemy
                 wiedzieć komu najlepiej je przekazać.
             </p>
-            <p data-step="2">
-                Uzupełnij szczegóły dotyczące Twoich rzeczy. Dzięki temu będziemy
-                wiedzieć komu najlepiej je przekazać.
-            </p>
-            <p data-step="3">
-                Wybierz jedną, do
-                której trafi Twoja przesyłka.
-            </p>
-            <p data-step="4">Podaj adres oraz termin odbioru rzeczy.</p>
         </div>
     </div>
 
     <div class="form--steps-container">
         <div class="form--steps-counter">Krok <span>1</span>/4</div>
 
-            <form:form method="post" modelAttribute="donation" action="/form2">
+            <form:form id="form" method="post" modelAttribute="donation" action="/form2" >
 
             <div data-step="1" class="active">
                 <h3>Zaznacz co chcesz oddać:</h3>
 
-                <form:checkboxes path="categories" items="${categories}" itemLabel="name" element="div class='form-group'"  />
-
+                <form:checkboxes path="categories" items="${categories}" itemLabel="name" element="div class='form-group'" />
+                </form:form>
                 <div class="form-group form-group--buttons">
-                <input type="submit" class="btn btn-primary" value="Save">
+                    <button type="button" class="btn btn-primary" id="submitButton">Dalej</button>
                 </div>
             </div>
 
-            </form:form>
+
+
         </div>
     </div>
 </section>
@@ -93,6 +82,15 @@
     <%@include file="footer.jsp" %>
 </footer>
 
-<script src="js/app.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<script>
+    $("#submitButton").on("click", function(){
+        if($('input:checkbox').is(':checked')) {
+            document.getElementById("form").submit();
+        }
+    });
+</script>
+
 </body>
 </html>

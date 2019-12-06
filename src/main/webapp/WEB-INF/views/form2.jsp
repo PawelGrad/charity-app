@@ -6,13 +6,10 @@
 <!DOCTYPE html>
 <html lang="pl">
 <head>
-
-
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
     <title>Document</title>
-
     <link rel="stylesheet" href="<c:url value="resources/css/style.css"/>"/>
 </head>
 <body>
@@ -53,45 +50,40 @@
     <div class="form--steps-instructions">
         <div class="form--steps-container">
             <h3>Ważne!</h3>
-            <p data-step="1" class="active">
+            <p data-step="2" class="active">
                 Uzupełnij szczegóły dotyczące Twoich rzeczy. Dzięki temu będziemy
                 wiedzieć komu najlepiej je przekazać.
             </p>
-            <p data-step="2">
-                Uzupełnij szczegóły dotyczące Twoich rzeczy. Dzięki temu będziemy
-                wiedzieć komu najlepiej je przekazać.
-            </p>
-            <p data-step="3">
-                Wybierz jedną, do
-                której trafi Twoja przesyłka.
-            </p>
-            <p data-step="4">Podaj adres oraz termin odbioru rzeczy.</p>
         </div>
     </div>
 
     <div class="form--steps-container">
         <div class="form--steps-counter">Krok <span>2</span>/4</div>
 
-        <form:form method="post" modelAttribute="donation">
+        <form:form id="form" method="post" modelAttribute="donation" action="/form3">
+        <div hidden>
+            <form:checkboxes path="categories" items="${categories}" itemLabel="name" />
 
+        </div>
             <!-- STEP 2 -->
             <div data-step="2" class="active">
                 <h3>Podaj liczbę 60l worków, w które spakowałeś/aś rzeczy:</h3>
-                <form:checkboxes path="categories" items="${categories}" itemLabel="name" element="div hidden class='form-group'"  />
+
                 <div class="form-group form-group--inline">
 
                     <label>
                         Liczba 60l worków:
                         <form:input path="quantity"/>
+
                     </label>
+                    </form:form>
                 </div>
 
                 <div class="form-group form-group--buttons">
-                    <input type="submit" class="btn prev-step" value="Wstecz" formaction="/form">
-                    <input type="submit" class="btn next-step" value="Dalej" formaction="/form3">
+                    <button type="button" class="btn btn-primary" id="submitButton">Dalej</button>
                 </div>
             </div>
-        </form:form>
+
 
     </div>
 </section>
@@ -100,6 +92,26 @@
     <%@include file="footer.jsp" %>
 </footer>
 
-<script src="js/app.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<script>
+    $(document).ready(function() {
+        console.log("aaaa");
+        document.getElementById("quantity").removeAttribute("type");
+        document.getElementById("quantity").setAttribute("type","number");
+        document.getElementById("quantity").setAttribute("min","1");
+        document.getElementById("quantity").value = 1;
+
+
+    });
+
+    $("#submitButton").on("click", function(){
+        if(document.getElementById("quantity").value >= 1 && Number.isInteger(parseInt(document.getElementById("quantity").value))) {
+            document.getElementById("form").submit();
+        }
+    });
+</script>
+
+
 </body>
 </html>

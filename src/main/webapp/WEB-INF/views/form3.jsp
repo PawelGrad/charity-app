@@ -53,19 +53,10 @@
     <div class="form--steps-instructions">
         <div class="form--steps-container">
             <h3>Ważne!</h3>
-            <p data-step="1" class="active">
-                Uzupełnij szczegóły dotyczące Twoich rzeczy. Dzięki temu będziemy
-                wiedzieć komu najlepiej je przekazać.
-            </p>
-            <p data-step="2">
-                Uzupełnij szczegóły dotyczące Twoich rzeczy. Dzięki temu będziemy
-                wiedzieć komu najlepiej je przekazać.
-            </p>
-            <p data-step="3">
+            <p data-step="3" class="active">
                 Wybierz jedną, do
                 której trafi Twoja przesyłka.
             </p>
-            <p data-step="4">Podaj adres oraz termin odbioru rzeczy.</p>
         </div>
     </div>
 
@@ -81,7 +72,7 @@
                 <!-- STEP 2 -->
             <div data-step="3" class="active">
                 <h3>Wybierz organizacje, której chcesz pomóc:</h3>
-                <form:select path="institution" items="${institutions}"/>
+                <form:select path="institution" items="${institutions}" itemLabel="name"/>
 
 
 

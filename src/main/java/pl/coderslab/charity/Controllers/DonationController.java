@@ -9,8 +9,8 @@ import pl.coderslab.charity.Repos.CategoryRepository;
 import pl.coderslab.charity.Repos.DonationRepository;
 import pl.coderslab.charity.Repos.InstitutionRepository;
 
-import java.text.SimpleDateFormat;
-import java.util.TimeZone;
+import javax.validation.Valid;
+
 
 @Controller
 public class DonationController {
@@ -33,34 +33,42 @@ public class DonationController {
 
     @PostMapping("/form2")
     public String formStepTwo(@ModelAttribute DonationEntity donation, BindingResult result, Model model) {
-
+        if(result.hasErrors()){
+            return "redirect:form";
+        }
+        System.out.println(donation.toString());
         model.addAttribute("donation", donation);
-
         return "form2";
     }
 
     @PostMapping("/form3")
     public String formStepThree(@ModelAttribute DonationEntity donation, BindingResult result, Model model) {
-
+        if(result.hasErrors()){
+            return "redirect:form2";
+        }
 
         model.addAttribute("donation", donation);
-
         return "form3";
     }
 
     @PostMapping("/form4")
     public String formStepFour(@ModelAttribute DonationEntity donation, BindingResult result, Model model) {
+        if(result.hasErrors()){
+            return "redirect:form3";
+        }
 
         model.addAttribute("donation", donation);
-
         return "form4";
     }
 
     @PostMapping("/saveForm")
-    public String formSave(@ModelAttribute DonationEntity donation, BindingResult result, Model model) {
-        System.out.println(donation.toString());
+    public String formSave(@Valid @ModelAttribute DonationEntity donation, BindingResult result) {
+        if(result.hasErrors()){
+            System.out.println(donation.toString());
+            return "redirect:form";
+        }
         donationRepository.save(donation);
-        return "index";
+        return "form-confirmation";
     }
 
     @ModelAttribute
