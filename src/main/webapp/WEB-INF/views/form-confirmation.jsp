@@ -30,6 +30,5 @@
     <%@include file="footer.jsp" %>
 </footer>
 
-<script src="js/app.js"></script>
 </body>
 </html>
