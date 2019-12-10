@@ -36,7 +36,6 @@ public class DonationController {
         if(result.hasErrors()){
             return "redirect:form";
         }
-        System.out.println(donation.toString());
         model.addAttribute("donation", donation);
         return "form2";
     }

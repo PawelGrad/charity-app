@@ -2,6 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="th" uri="http://www.springframework.org/tags/form" %>
 <!DOCTYPE html>
 <html lang="pl">
 <head>
@@ -18,11 +19,13 @@
     <%@include file="header.jsp" %>
 </header>
 
+
+
 <section class="login-page">
     <h2>Zaloguj się</h2>
-    <form>
+    <form name ="f" method="post" action="login">
         <div class="form-group">
-            <input type="email" name="email" placeholder="Email" />
+            <input type="email" name="username" placeholder="Email" autocomplete="no" />
         </div>
         <div class="form-group">
             <input type="password" name="password" placeholder="Hasło" />

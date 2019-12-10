@@ -14,7 +14,7 @@
     <title>Document</title>
 
     <link rel="stylesheet" href="<c:url value="resources/css/style.css"/>"/>
-</head>
+</head>charity-donation
 <body>
 <header class="header--form-page">
     <%@include file="header.jsp" %>
