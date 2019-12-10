@@ -10,6 +10,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
 
 import javax.sql.DataSource;
@@ -18,8 +19,14 @@ import javax.sql.DataSource;
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Autowired
-    DataSource dataSource;
+
+    private DataSource dataSource;
+    private AuthenticationSuccessHandler authenticationSuccessHandler;
+
+    public SecurityConfig(DataSource dataSource, AuthenticationSuccessHandler authenticationSuccessHandler) {
+        this.dataSource = dataSource;
+        this.authenticationSuccessHandler = authenticationSuccessHandler;
+    }
 
     @Autowired
     public void configAuthentication(AuthenticationManagerBuilder auth) throws Exception {
@@ -35,15 +42,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
 
         http.authorizeRequests()
-                .antMatchers("/app/**").authenticated()
-                .antMatchers("/").permitAll()
-                .and().formLogin().loginPage("/login")
-                .defaultSuccessUrl("/user",true)
+                .antMatchers("/user/**","/admin/**").authenticated()
+                .antMatchers("/admin/**").hasAuthority("ROLE_ADMIN")
+                .and().formLogin().loginPage("/login").successHandler(authenticationSuccessHandler)
                 .and().csrf().disable()
-                .logout()
-                .logoutUrl("/logout")
-                .logoutSuccessUrl("/")
-                .permitAll();
+                .logout().logoutUrl("/logout").logoutSuccessUrl("/");
     }
 
     @Bean

@@ -1,16 +1,16 @@
 package pl.coderslab.charity.Controllers;
 
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
+import pl.coderslab.charity.Model.Authority.AuthorityEntity;
 import pl.coderslab.charity.Model.Category.CategoryEntity;
 import pl.coderslab.charity.Model.Donation.DonationEntity;
 import pl.coderslab.charity.Model.Institution.InstitutionEntity;
-import pl.coderslab.charity.Repos.CategoryRepository;
-import pl.coderslab.charity.Repos.DonationRepository;
-import pl.coderslab.charity.Repos.InstitutionRepository;
+import pl.coderslab.charity.Model.UserEntity.UserEntity;
+import pl.coderslab.charity.Repos.*;
 
 import java.util.Arrays;
 import java.util.List;
@@ -21,12 +21,16 @@ public class HomeController {
 
     private InstitutionRepository institutionRepository;
     private DonationRepository donationRepository;
-    private CategoryRepository categoryRepository;
+    private UserRepository userRepository;
+    private AuthorityRepository authorityRepository;
+    private final BCryptPasswordEncoder passwordEncoder;
 
-    public HomeController(InstitutionRepository institutionRepository, DonationRepository donationRepository, CategoryRepository categoryRepository) {
+    public HomeController(InstitutionRepository institutionRepository, DonationRepository donationRepository, UserRepository userRepository, AuthorityRepository authorityRepository, BCryptPasswordEncoder passwordEncoder) {
         this.institutionRepository = institutionRepository;
         this.donationRepository = donationRepository;
-        this.categoryRepository = categoryRepository;
+        this.userRepository = userRepository;
+        this.authorityRepository = authorityRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @RequestMapping("/")
@@ -40,6 +44,29 @@ public class HomeController {
         return "index";
     }
 
+    @GetMapping("/register")
+    public String register(Model model){
+        model.addAttribute("user", new UserEntity());
+
+        return "register";
+    }
+
+    @PostMapping("/register")
+    public String processRegister(@ModelAttribute UserEntity user, BindingResult result){
+        if(result.hasErrors() || (!user.getPassword().equals(user.getPasswordConfirmation()))){
+            return "redirect:register";
+        }
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setEnabled(true);
+        userRepository.save(user);
+        authorityRepository.save(new AuthorityEntity(user.getEmail(),"ROLE_USER",user));
+        return "index";
+    }
+
+    @GetMapping("/login")
+    public String login(){
+        return "login";
+    }
 
 
 }
