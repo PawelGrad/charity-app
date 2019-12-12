@@ -8,4 +8,7 @@ public interface InstitutionRepository  extends JpaRepository<InstitutionEntity,
 
     @Query(nativeQuery = true, value = "SELECT count(*) FROM institiutions")
     int countInstitutions();
+
+    @Query(nativeQuery = true, value ="update ins")
+    void update();
 }

@@ -10,6 +10,7 @@ import pl.coderslab.charity.Model.Category.CategoryEntity;
 import pl.coderslab.charity.Model.Donation.DonationEntity;
 import pl.coderslab.charity.Model.Institution.InstitutionEntity;
 import pl.coderslab.charity.Model.UserEntity.UserEntity;
+import pl.coderslab.charity.Model.UserEntity.UserServiceImp;
 import pl.coderslab.charity.Repos.*;
 
 import java.util.Arrays;
@@ -21,16 +22,12 @@ public class HomeController {
 
     private InstitutionRepository institutionRepository;
     private DonationRepository donationRepository;
-    private UserRepository userRepository;
-    private AuthorityRepository authorityRepository;
-    private final BCryptPasswordEncoder passwordEncoder;
+    private UserServiceImp userServiceImp;
 
-    public HomeController(InstitutionRepository institutionRepository, DonationRepository donationRepository, UserRepository userRepository, AuthorityRepository authorityRepository, BCryptPasswordEncoder passwordEncoder) {
+    public HomeController(InstitutionRepository institutionRepository, DonationRepository donationRepository, UserServiceImp userServiceImp) {
         this.institutionRepository = institutionRepository;
         this.donationRepository = donationRepository;
-        this.userRepository = userRepository;
-        this.authorityRepository = authorityRepository;
-        this.passwordEncoder = passwordEncoder;
+        this.userServiceImp = userServiceImp;
     }
 
     @RequestMapping("/")
@@ -56,10 +53,7 @@ public class HomeController {
         if(result.hasErrors() || (!user.getPassword().equals(user.getPasswordConfirmation()))){
             return "redirect:register";
         }
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        user.setEnabled(true);
-        userRepository.save(user);
-        authorityRepository.save(new AuthorityEntity(user.getEmail(),"ROLE_USER",user));
+        userServiceImp.saveUser(user);
         return "index";
     }
 
