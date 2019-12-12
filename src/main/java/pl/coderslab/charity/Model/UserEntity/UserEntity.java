@@ -1,6 +1,7 @@
 package pl.coderslab.charity.Model.UserEntity;
 
 import pl.coderslab.charity.Model.Authority.AuthorityEntity;
+import pl.coderslab.charity.Model.Donation.DonationEntity;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
@@ -15,7 +16,10 @@ public class UserEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String username;
+    private String firstName;
+
+
+    private String lastName;
 
     private String password;
 
@@ -28,8 +32,11 @@ public class UserEntity {
 
     private Boolean enabled;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user", orphanRemoval = true)
     private List<AuthorityEntity> authorities = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user")
+    private List<DonationEntity> donations = new ArrayList<>();
 
     public UserEntity() {
     }
@@ -50,6 +57,22 @@ public class UserEntity {
         this.passwordConfirmation = passwordConfirmation;
     }
 
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
     public Long getId() {
         return id;
     }
@@ -58,13 +81,6 @@ public class UserEntity {
         this.id = id;
     }
 
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
 
     public String getPassword() {
         return password;
@@ -88,5 +104,20 @@ public class UserEntity {
 
     public void setAuthorities(List<AuthorityEntity> authorities) {
         this.authorities = authorities;
+    }
+
+    @Override
+    public String toString() {
+        return "UserEntity{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", password='" + password + '\'' +
+                ", passwordConfirmation='" + passwordConfirmation + '\'' +
+                ", email='" + email + '\'' +
+                ", enabled=" + enabled +
+                ", authorities=" + authorities +
+                ", donations=" + donations +
+                '}';
     }
 }

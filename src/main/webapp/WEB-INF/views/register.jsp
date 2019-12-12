@@ -24,12 +24,22 @@
     <h2>Załóż konto</h2>
 
     <form:form method="post" modelAttribute="user">
+
         <div class="form-group">
             <form:input path="email" placeholder="Email"/>
         </div>
+
+        <div class="form-group">
+            <form:input path="firstName" placeholder="Imie"/>
+        </div>
+        <div class="form-group">
+            <form:input path="lastName" placeholder="Nazwisko"/>
+        </div>
+
         <div class="form-group">
             <form:input path="password" placeholder="Hasło"/>
         </div>
+
         <div class="form-group">
             <form:input path="passwordConfirmation" placeholder="Powtórz hasło"/>
         </div>

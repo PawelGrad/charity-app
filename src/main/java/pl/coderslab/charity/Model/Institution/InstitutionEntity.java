@@ -18,12 +18,21 @@ public class InstitutionEntity {
 
     private String name;
     private String descritpion;
+    private Boolean archivised;
 
 
     @OneToMany(mappedBy = "institution")
     private List<DonationEntity> donations;
 
     public InstitutionEntity() {
+    }
+
+    public Boolean getArchivised() {
+        return archivised;
+    }
+
+    public void setArchivised(Boolean archivised) {
+        this.archivised = archivised;
     }
 
     public Long getId() {

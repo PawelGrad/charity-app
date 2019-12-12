@@ -1,4 +1,4 @@
-package pl.coderslab.charity.Repos;
+package pl.coderslab.charity.Model.UserEntity;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -21,5 +21,8 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
             "from users inner join authorities a on users.id = a.user_id " +
             "where authority = 'ROLE_USER'")
     List<UserEntity> findAllUsers();
+
+    @Query(nativeQuery = true, value ="select * from users where email = ?")
+    UserEntity findByEmail(String email);
 
 }

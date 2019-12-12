@@ -1,20 +1,14 @@
 package pl.coderslab.charity.Controllers;
 
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import pl.coderslab.charity.Model.Authority.AuthorityEntity;
-import pl.coderslab.charity.Model.Category.CategoryEntity;
-import pl.coderslab.charity.Model.Donation.DonationEntity;
-import pl.coderslab.charity.Model.Institution.InstitutionEntity;
+import pl.coderslab.charity.Config.EmailServiceImpl;
+import pl.coderslab.charity.Model.Donation.DonationRepository;
+import pl.coderslab.charity.Model.Institution.InstitutionRepository;
 import pl.coderslab.charity.Model.UserEntity.UserEntity;
 import pl.coderslab.charity.Model.UserEntity.UserServiceImp;
-import pl.coderslab.charity.Repos.*;
-
-import java.util.Arrays;
-import java.util.List;
 
 
 @Controller
@@ -23,28 +17,27 @@ public class HomeController {
     private InstitutionRepository institutionRepository;
     private DonationRepository donationRepository;
     private UserServiceImp userServiceImp;
+    private EmailServiceImpl emailService;
 
-    public HomeController(InstitutionRepository institutionRepository, DonationRepository donationRepository, UserServiceImp userServiceImp) {
+    public HomeController(InstitutionRepository institutionRepository, DonationRepository donationRepository, UserServiceImp userServiceImp, EmailServiceImpl emailService) {
         this.institutionRepository = institutionRepository;
         this.donationRepository = donationRepository;
         this.userServiceImp = userServiceImp;
+        this.emailService = emailService;
     }
+
 
     @RequestMapping("/")
     public String homeAction(Model model){
-        List<InstitutionEntity> institutions = institutionRepository.findAll();
-        int quantity = donationRepository.countBags();
-        int numberOfInstitutions = institutionRepository.countInstitutions();
-        model.addAttribute("institutions",institutions);
-        model.addAttribute("quantity", quantity);
-        model.addAttribute("numberOfInstitutions", numberOfInstitutions);
+        model.addAttribute("institutions", institutionRepository.findAll());
+        model.addAttribute("quantity", donationRepository.countBags().orElse(0L));
+        model.addAttribute("numberOfInstitutions", institutionRepository.countInstitutions().orElse(0L));
         return "index";
     }
 
     @GetMapping("/register")
     public String register(Model model){
         model.addAttribute("user", new UserEntity());
-
         return "register";
     }
 
@@ -54,13 +47,22 @@ public class HomeController {
             return "redirect:register";
         }
         userServiceImp.saveUser(user);
-        return "index";
+        return "login";
     }
 
     @GetMapping("/login")
     public String login(){
         return "login";
     }
+
+    @GetMapping("/mailTest")
+    public String mail(){
+        emailService.sendSimpleMessage();
+        return "login";
+    }
+
+
+
 
 
 }

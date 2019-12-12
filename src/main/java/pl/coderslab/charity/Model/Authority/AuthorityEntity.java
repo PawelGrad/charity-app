@@ -13,7 +13,6 @@ public class AuthorityEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String email;
     private String authority;
 
     @ManyToOne
@@ -23,8 +22,7 @@ public class AuthorityEntity {
     public AuthorityEntity() {
     }
 
-    public AuthorityEntity(String email, String authority, UserEntity user) {
-        this.email = email;
+    public AuthorityEntity(String authority, UserEntity user) {
         this.authority = authority;
         this.user = user;
     }
@@ -37,14 +35,6 @@ public class AuthorityEntity {
         this.id = id;
     }
 
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
 
     public String getAuthority() {
         return authority;

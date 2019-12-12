@@ -5,9 +5,9 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import pl.coderslab.charity.Model.Donation.DonationEntity;
-import pl.coderslab.charity.Repos.CategoryRepository;
-import pl.coderslab.charity.Repos.DonationRepository;
-import pl.coderslab.charity.Repos.InstitutionRepository;
+import pl.coderslab.charity.Model.Category.CategoryRepository;
+import pl.coderslab.charity.Model.Donation.DonationRepository;
+import pl.coderslab.charity.Model.Institution.InstitutionRepository;
 
 import javax.validation.Valid;
 
@@ -55,7 +55,6 @@ public class DonationController {
         if(result.hasErrors()){
             return "redirect:form3";
         }
-
         model.addAttribute("donation", donation);
         return "form4";
     }
@@ -63,7 +62,6 @@ public class DonationController {
     @PostMapping("/saveForm")
     public String formSave(@Valid @ModelAttribute DonationEntity donation, BindingResult result) {
         if(result.hasErrors()){
-            System.out.println(donation.toString());
             return "redirect:form";
         }
         donationRepository.save(donation);

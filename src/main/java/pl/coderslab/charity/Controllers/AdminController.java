@@ -1,17 +1,14 @@
 package pl.coderslab.charity.Controllers;
 
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import pl.coderslab.charity.Model.Authority.AuthorityEntity;
 import pl.coderslab.charity.Model.Institution.InstitutionEntity;
+import pl.coderslab.charity.Model.Institution.InstitutionServiceImpl;
 import pl.coderslab.charity.Model.UserEntity.UserEntity;
 import pl.coderslab.charity.Model.UserEntity.UserServiceImp;
-import pl.coderslab.charity.Repos.AuthorityRepository;
-import pl.coderslab.charity.Repos.InstitutionRepository;
-import pl.coderslab.charity.Repos.UserRepository;
+import pl.coderslab.charity.Model.Institution.InstitutionRepository;
 
 @Controller
 @RequestMapping("/admin")
@@ -19,10 +16,12 @@ public class AdminController {
 
     private InstitutionRepository institutionRepository;
     private UserServiceImp userServiceImp;
+    private InstitutionServiceImpl institutionService;
 
-    public AdminController(InstitutionRepository institutionRepository, UserServiceImp userServiceImp) {
+    public AdminController(InstitutionRepository institutionRepository, UserServiceImp userServiceImp, InstitutionServiceImpl institutionService) {
         this.institutionRepository = institutionRepository;
         this.userServiceImp = userServiceImp;
+        this.institutionService = institutionService;
     }
 
     @RequestMapping("")
@@ -168,7 +167,7 @@ public class AdminController {
 
     @GetMapping("/institutions/remove/{id}")
     public String removeInstitution(@PathVariable Long id){
-        institutionRepository.deleteById(id);
+        institutionService.remove(id);
         return "redirect:/admin/institutions/all";
     }
 

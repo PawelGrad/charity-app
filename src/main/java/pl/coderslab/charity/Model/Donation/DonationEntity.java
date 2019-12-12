@@ -4,6 +4,7 @@ import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 import pl.coderslab.charity.Model.Category.CategoryEntity;
 import pl.coderslab.charity.Model.Institution.InstitutionEntity;
+import pl.coderslab.charity.Model.UserEntity.UserEntity;
 
 import javax.persistence.*;
 import javax.validation.constraints.Min;
@@ -37,11 +38,19 @@ public class DonationEntity {
     @JoinColumn(name="institution_id", nullable=false)
     private InstitutionEntity institution;
 
+    @ManyToOne
+    @JoinColumn(name="user_id") //nullable=false
+    private UserEntity user;
+
     private String street;
 
     private String city;
 
     private String zipCode;
+
+    private Boolean archivised;
+
+    private Boolean delivered;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate pickUpDate;
@@ -52,6 +61,22 @@ public class DonationEntity {
     private String pickUpComment;
 
     public DonationEntity() {
+    }
+
+    public Boolean getArchivised() {
+        return archivised;
+    }
+
+    public void setArchivised(Boolean archivised) {
+        this.archivised = archivised;
+    }
+
+    public Boolean getDelivered() {
+        return delivered;
+    }
+
+    public void setDelivered(Boolean delivered) {
+        this.delivered = delivered;
     }
 
     public Long getId() {
