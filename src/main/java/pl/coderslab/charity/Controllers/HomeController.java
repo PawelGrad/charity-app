@@ -6,7 +6,9 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import pl.coderslab.charity.Config.EmailServiceImpl;
 import pl.coderslab.charity.Model.Donation.DonationRepository;
+import pl.coderslab.charity.Model.Donation.DonationServiceImpl;
 import pl.coderslab.charity.Model.Institution.InstitutionRepository;
+import pl.coderslab.charity.Model.Institution.InstitutionServiceImpl;
 import pl.coderslab.charity.Model.UserEntity.UserEntity;
 import pl.coderslab.charity.Model.UserEntity.UserServiceImp;
 
@@ -14,24 +16,24 @@ import pl.coderslab.charity.Model.UserEntity.UserServiceImp;
 @Controller
 public class HomeController {
 
-    private InstitutionRepository institutionRepository;
-    private DonationRepository donationRepository;
+
     private UserServiceImp userServiceImp;
     private EmailServiceImpl emailService;
+    private DonationServiceImpl donationService;
+    private InstitutionServiceImpl institutionService;
 
-    public HomeController(InstitutionRepository institutionRepository, DonationRepository donationRepository, UserServiceImp userServiceImp, EmailServiceImpl emailService) {
-        this.institutionRepository = institutionRepository;
-        this.donationRepository = donationRepository;
+    public HomeController(UserServiceImp userServiceImp, EmailServiceImpl emailService, DonationServiceImpl donationService, InstitutionServiceImpl institutionService) {
         this.userServiceImp = userServiceImp;
         this.emailService = emailService;
+        this.donationService = donationService;
+        this.institutionService = institutionService;
     }
-
 
     @RequestMapping("/")
     public String homeAction(Model model){
-        model.addAttribute("institutions", institutionRepository.findAll());
-        model.addAttribute("quantity", donationRepository.countBags().orElse(0L));
-        model.addAttribute("numberOfInstitutions", institutionRepository.countInstitutions().orElse(0L));
+        model.addAttribute("institutions", institutionService.findAll());
+        model.addAttribute("quantity", donationService.countBags());
+        model.addAttribute("numberOfInstitutions", institutionService.countInstitutions());
         return "index";
     }
 

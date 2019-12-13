@@ -6,6 +6,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import pl.coderslab.charity.Model.Donation.DonationRepository;
+import pl.coderslab.charity.Model.Donation.DonationServiceImpl;
 import pl.coderslab.charity.Model.UserEntity.UserEntity;
 import pl.coderslab.charity.Model.UserEntity.UserServiceImp;
 
@@ -16,9 +18,11 @@ import javax.xml.ws.Binding;
 public class UserController {
 
     UserServiceImp userServiceImp;
+    DonationServiceImpl donationService;
 
-    public UserController(UserServiceImp userServiceImp) {
+    public UserController(UserServiceImp userServiceImp, DonationServiceImpl donationService) {
         this.userServiceImp = userServiceImp;
+        this.donationService = donationService;
     }
 
     @RequestMapping("")
@@ -55,6 +59,11 @@ public class UserController {
         return "redirect:/user";
     }
 
+    @GetMapping("/donations")
+    public String myDonations(Model model) {
+        model.addAttribute("donations", donationService.myDonations(userServiceImp.getCurrentUser().getId()));
+        return "myDonations";
+    }
 
 
 }

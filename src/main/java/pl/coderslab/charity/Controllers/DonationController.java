@@ -7,22 +7,26 @@ import org.springframework.web.bind.annotation.*;
 import pl.coderslab.charity.Model.Donation.DonationEntity;
 import pl.coderslab.charity.Model.Category.CategoryRepository;
 import pl.coderslab.charity.Model.Donation.DonationRepository;
+import pl.coderslab.charity.Model.Donation.DonationServiceImpl;
 import pl.coderslab.charity.Model.Institution.InstitutionRepository;
+import pl.coderslab.charity.Model.Institution.InstitutionServiceImpl;
 
 import javax.validation.Valid;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 
 @Controller
 public class DonationController {
 
-    private InstitutionRepository institutionRepository;
-    private DonationRepository donationRepository;
     private CategoryRepository categoryRepository;
+    private InstitutionServiceImpl institutionService;
+    private DonationServiceImpl donationService;
 
-    public DonationController(InstitutionRepository institutionRepository, DonationRepository donationRepository, CategoryRepository categoryRepository) {
-        this.institutionRepository = institutionRepository;
-        this.donationRepository = donationRepository;
+    public DonationController(CategoryRepository categoryRepository, InstitutionServiceImpl institutionService, DonationServiceImpl donationService) {
         this.categoryRepository = categoryRepository;
+        this.institutionService = institutionService;
+        this.donationService = donationService;
     }
 
     @RequestMapping("/form")
@@ -64,7 +68,7 @@ public class DonationController {
         if(result.hasErrors()){
             return "redirect:form";
         }
-        donationRepository.save(donation);
+        donationService.newDonation(donation);
         return "form-confirmation";
     }
 
@@ -74,7 +78,7 @@ public class DonationController {
     }
     @ModelAttribute
     public void addInstitutions(Model model) {
-        model.addAttribute("institutions", institutionRepository.findAll());
+        model.addAttribute("institutions", institutionService.findAll());
     }
 
 

@@ -58,9 +58,28 @@ public class DonationEntity {
     @DateTimeFormat(iso = DateTimeFormat.ISO.TIME)
     private LocalTime pickUpTime;
 
+    @DateTimeFormat(iso = DateTimeFormat.ISO.TIME)
+    private LocalDateTime creationTime;
+
     private String pickUpComment;
 
     public DonationEntity() {
+    }
+
+    public UserEntity getUser() {
+        return user;
+    }
+
+    public void setUser(UserEntity user) {
+        this.user = user;
+    }
+
+    public LocalDateTime getCreationTime() {
+        return creationTime;
+    }
+
+    public void setCreationTime(LocalDateTime creationTime) {
+        this.creationTime = creationTime;
     }
 
     public Boolean getArchivised() {
