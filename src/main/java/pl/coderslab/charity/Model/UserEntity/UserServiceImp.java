@@ -55,6 +55,8 @@ public class UserServiceImp {
         tokenRepository.save(token);
     }
 
+
+
     public void addAdmin(UserEntity admin){
         admin.setPassword(passwordEncoder.encode(admin.getPassword()));
         admin.setEnabled(true);

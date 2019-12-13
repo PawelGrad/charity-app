@@ -89,18 +89,19 @@ public class HomeController {
         TokenEntity token = tokenRepository.findByUuid(uuid);
         if (token != null) {
             model.addAttribute("user", token.getUser());
-            model.addAttribute("token", token);
+            model.addAttribute("token", token.getUuid());
         }
         return "passwordRestoration";
     }
 
-    @PostMapping("/changePassword")
-    public String processChangePassword(@ModelAttribute UserEntity user, BindingResult result){
+    @PostMapping("/changePassword/{uuid}")
+    public String processChangePassword(@PathVariable String uuid, @ModelAttribute UserEntity user, BindingResult result){
         if(result.hasErrors() || (!user.getPassword().equals(user.getPasswordConfirmation()))){
            return "redirect:/login";
         }
+        user.getTokens().remove(tokenRepository.findByUuid(uuid));
         userServiceImp.updatePassword(user);
-        return "login";
+        return "redirect:/login";
     }
 
 
