@@ -17,7 +17,7 @@
 </head>
 <body>
 
-<form:form method="post" modelAttribute="user" action="/user/changePassword">
+<form:form method="post" modelAttribute="user" action="/changePassword">
 
     <div class="form-group form-group--inline">
         <label hidden> Email: <form:input path="enabled" /> </label>

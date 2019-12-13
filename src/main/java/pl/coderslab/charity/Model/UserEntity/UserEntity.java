@@ -2,6 +2,7 @@ package pl.coderslab.charity.Model.UserEntity;
 
 import pl.coderslab.charity.Model.Authority.AuthorityEntity;
 import pl.coderslab.charity.Model.Donation.DonationEntity;
+import pl.coderslab.charity.Model.Token.TokenEntity;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
@@ -26,6 +27,7 @@ public class UserEntity {
     @Transient
     private String passwordConfirmation;
 
+
     @Column(unique=true)
     @Size(min = 3, max = 50)
     private String email;
@@ -38,7 +40,26 @@ public class UserEntity {
     @OneToMany(mappedBy = "user")
     private List<DonationEntity> donations = new ArrayList<>();
 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user", orphanRemoval = true)
+    private List<TokenEntity> tokens = new ArrayList<>();
+
     public UserEntity() {
+    }
+
+    public List<TokenEntity> getTokens() {
+        return tokens;
+    }
+
+    public void setTokens(List<TokenEntity> tokens) {
+        this.tokens = tokens;
+    }
+
+    public List<DonationEntity> getDonations() {
+        return donations;
+    }
+
+    public void setDonations(List<DonationEntity> donations) {
+        this.donations = donations;
     }
 
     public Boolean getEnabled() {
