@@ -48,9 +48,9 @@ public class DonationEntity {
 
     private String zipCode;
 
-    private Boolean archivised;
+    private Boolean archivised = false;
 
-    private Boolean delivered;
+    private Boolean delivered = false;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate pickUpDate;
@@ -60,6 +60,9 @@ public class DonationEntity {
 
     @DateTimeFormat(iso = DateTimeFormat.ISO.TIME)
     private LocalDateTime creationTime;
+
+    @DateTimeFormat(iso = DateTimeFormat.ISO.TIME)
+    private LocalDateTime deliveredTime;
 
     private String pickUpComment;
 
@@ -80,6 +83,14 @@ public class DonationEntity {
 
     public void setCreationTime(LocalDateTime creationTime) {
         this.creationTime = creationTime;
+    }
+
+    public LocalDateTime getDeliveredTime() {
+        return deliveredTime;
+    }
+
+    public void setDeliveredTime(LocalDateTime deliveredTime) {
+        this.deliveredTime = deliveredTime;
     }
 
     public Boolean getArchivised() {

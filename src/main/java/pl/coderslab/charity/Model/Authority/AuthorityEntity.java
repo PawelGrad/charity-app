@@ -4,7 +4,6 @@ package pl.coderslab.charity.Model.Authority;
 import pl.coderslab.charity.Model.UserEntity.UserEntity;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
 
 @Entity
 @Table(name = "authorities")

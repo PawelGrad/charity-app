@@ -4,17 +4,15 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import pl.coderslab.charity.Config.EmailServiceImpl;
-import pl.coderslab.charity.Model.Donation.DonationRepository;
 import pl.coderslab.charity.Model.Donation.DonationServiceImpl;
-import pl.coderslab.charity.Model.Institution.InstitutionRepository;
 import pl.coderslab.charity.Model.Institution.InstitutionServiceImpl;
 import pl.coderslab.charity.Model.Token.TokenEntity;
 import pl.coderslab.charity.Model.Token.TokenRepository;
 import pl.coderslab.charity.Model.UserEntity.UserEntity;
 import pl.coderslab.charity.Model.UserEntity.UserServiceImp;
+import pl.coderslab.charity.Utils.Utils;
 
-import java.util.UUID;
+import java.time.LocalDateTime;
 
 
 @Controller
@@ -49,7 +47,7 @@ public class HomeController {
 
     @PostMapping("/register")
     public String processRegister(@ModelAttribute UserEntity user, BindingResult result){
-        if(result.hasErrors() || (!user.getPassword().equals(user.getPasswordConfirmation()))){
+        if(result.hasErrors() || !user.getPassword().equals(user.getPasswordConfirmation()) || !Utils.checkPwd(user.getPassword())){
             return "redirect:register";
         }
         userServiceImp.saveUser(user);
@@ -87,17 +85,20 @@ public class HomeController {
     @GetMapping("/changePassword/{uuid}")
     public String changePassword(@PathVariable String uuid, Model model){
         TokenEntity token = tokenRepository.findByUuid(uuid);
-        if (token != null) {
+        if (token != null && !token.isExprired()) {
             model.addAttribute("user", token.getUser());
             model.addAttribute("token", token.getUuid());
+            return "passwordRestoration";
+        } else {
+            return "redirect:/restorePassword";
         }
-        return "passwordRestoration";
+
     }
 
     @PostMapping("/changePassword/{uuid}")
     public String processChangePassword(@PathVariable String uuid, @ModelAttribute UserEntity user, BindingResult result){
-        if(result.hasErrors() || (!user.getPassword().equals(user.getPasswordConfirmation()))){
-           return "redirect:/login";
+        if(result.hasErrors() || !user.getPassword().equals(user.getPasswordConfirmation()) || !Utils.checkPwd(user.getPassword())){
+            return "redirect:/changePassword/"+uuid ;
         }
         user.getTokens().remove(tokenRepository.findByUuid(uuid));
         userServiceImp.updatePassword(user);

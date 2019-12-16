@@ -4,15 +4,13 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import pl.coderslab.charity.Config.EmailServiceImpl;
+import pl.coderslab.charity.Utils.EmailServiceImpl;
 import pl.coderslab.charity.Model.Authority.AuthorityEntity;
-import pl.coderslab.charity.Model.Authority.AuthorityRepository;
 import pl.coderslab.charity.Model.Token.TokenEntity;
 import pl.coderslab.charity.Model.Token.TokenRepository;
 
 import javax.transaction.Transactional;
 import java.util.List;
-import java.util.UUID;
 
 @Service
 @Transactional

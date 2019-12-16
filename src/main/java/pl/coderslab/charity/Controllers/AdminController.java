@@ -9,6 +9,7 @@ import pl.coderslab.charity.Model.Institution.InstitutionServiceImpl;
 import pl.coderslab.charity.Model.UserEntity.UserEntity;
 import pl.coderslab.charity.Model.UserEntity.UserServiceImp;
 import pl.coderslab.charity.Model.Institution.InstitutionRepository;
+import pl.coderslab.charity.Utils.Utils;
 
 @Controller
 @RequestMapping("/admin")
@@ -76,7 +77,7 @@ public class AdminController {
 
     @PostMapping("/admins/add")
     public String processAddAdmin(@ModelAttribute UserEntity userEntity,BindingResult result){
-        if(result.hasErrors() || (!userEntity.getPassword().equals(userEntity.getPasswordConfirmation()))){
+        if(result.hasErrors() || !userEntity.getPassword().equals(userEntity.getPasswordConfirmation()) || !Utils.checkPwd(userEntity.getPassword())){
             return "redirect:/admin/admins/add";
         }
         userServiceImp.addAdmin(userEntity);
@@ -85,6 +86,9 @@ public class AdminController {
 
     @GetMapping("/admins/remove/{id}")
     public String removeAdmin(@PathVariable Long id){
+        if(userServiceImp.getCurrentUser().getId().equals(id)){
+            return "redirect:/admin/admins/all";
+        }
         userServiceImp.removeUser(id);
         return "redirect:/admin/admins/all";
     }

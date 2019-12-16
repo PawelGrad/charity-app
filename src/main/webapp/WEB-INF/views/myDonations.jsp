@@ -14,12 +14,19 @@
         <tr>
             <td><c:out value="${donation.delivered}"/></td>
             <c:if test="${donation.delivered=='true'}">
-            <td><c:out value="${donation.pickUpDate} ${donation.pickUpTime}"/></td>
+            <td><c:out value="${donation.deliveredTime}"/></td>
             </c:if>
             <c:if test="${donation.delivered=='false'}">
                 <td></td>
             </c:if>
             <td><c:out value="${donation.creationTime}"/></td>
+            <td>
+                <form class="form-signin" action="/user/donations/details" method="post" >
+                    <input hidden type="text" name ="id" class="form-control" required autofocus value="${donation.id}">
+                    <input class="btn btn-md btn-success btn-block" type="submit" value="Details">
+                </form>
+
+            </td>
         </tr>
     </c:forEach>
 </table>
