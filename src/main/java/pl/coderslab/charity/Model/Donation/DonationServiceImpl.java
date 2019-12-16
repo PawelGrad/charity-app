@@ -1,6 +1,7 @@
 package pl.coderslab.charity.Model.Donation;
 
 import org.springframework.stereotype.Service;
+import pl.coderslab.charity.Model.UserEntity.UserServiceImp;
 
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
@@ -11,15 +12,18 @@ import java.util.List;
 public class DonationServiceImpl {
 
     private DonationRepository donationRepository;
+    private UserServiceImp userService;
 
-    public DonationServiceImpl(DonationRepository donationRepository) {
+    public DonationServiceImpl(DonationRepository donationRepository, UserServiceImp userServiceImp) {
         this.donationRepository = donationRepository;
+        this.userService = userServiceImp;
     }
 
     public void newDonation(DonationEntity donation){
         donation.setCreationTime(LocalDateTime.now());
         donation.setDelivered(false);
         donation.setArchivised(false);
+        donation.setUser(userService.getCurrentUser());
         donationRepository.save(donation);
     }
 

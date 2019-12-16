@@ -17,7 +17,8 @@ public class EmailServiceImpl {
     public void accountActivationEmail(String email, String uuid){
 
         SimpleMailMessage message = new SimpleMailMessage();
-        message.setTo(email);
+        //message.setTo(email);
+        message.setTo("gradpawel91@gmail.com");
         message.setSubject("AccountActivation");
         message.setText("http://localhost:8080/activate/" + uuid);
         emailSender.send(message);
@@ -27,7 +28,8 @@ public class EmailServiceImpl {
     public void passwordRecoveryEmail(String email, String uuid){
 
         SimpleMailMessage message = new SimpleMailMessage();
-        message.setTo(email);
+        //message.setTo(email);
+        message.setTo("gradpawel91@gmail.com");
         message.setSubject("PasswordRestoration");
         message.setText("http://localhost:8080/changePassword/" + uuid);
         emailSender.send(message);

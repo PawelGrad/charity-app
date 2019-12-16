@@ -7,16 +7,22 @@
 <table class="table" style="width:100%">
     <tr>
         <th>ID</th>
+        <th>Imie</th>
+        <th>Nazwisko</th>
         <th>Email</th>
         <th>Enabled</th>
     </tr>
     <c:forEach items="${admins}" var="admin">
         <tr>
             <td><c:out value="${admin.id}"/></td>
+            <td><c:out value="${admin.firstName}"/></td>
+            <td><c:out value="${admin.lastName}"/></td>
             <td><c:out value="${admin.email}"/></td>
             <td><c:out value="${admin.enabled}"/></td>
             <td><a href="/admin/admins/edit/${admin.id}"><button>Edytuj</button></a></td>
             <td><a href="/admin/admins/remove/${admin.id}"><button>Usuń</button></a></td>
         </tr>
     </c:forEach>
+
 </table>
+<a href="/admin/admins/add"><button>New Admin</button></a>

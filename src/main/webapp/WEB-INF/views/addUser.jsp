@@ -20,16 +20,23 @@
 <form:form method="post" modelAttribute="admin" action="/admin/admins/add">
 
 
-    <div class="form-group form-group--inline">
-        <label> Email: <form:input path="email" /> </label>
+    <div class="form-group">
+        <form:input path="email" placeholder="Email"/>
     </div>
 
-    <div class="form-group form-group--inline">
-        <label> Haslo: <form:input path="password"/> </label>
+    <div class="form-group">
+        <form:input path="firstName" placeholder="Imie"/>
+    </div>
+    <div class="form-group">
+        <form:input path="lastName" placeholder="Nazwisko"/>
     </div>
 
-    <div class="form-group form-group--inline">
-        <label> Powtórz hasło: <form:input path="passwordConfirmation"/> </label>
+    <div class="form-group">
+        <form:input path="password" type="password" placeholder="Hasło"/>
+    </div>
+
+    <div class="form-group">
+        <form:input path="passwordConfirmation" type="password" placeholder="Powtórz hasło"/>
     </div>
 
 

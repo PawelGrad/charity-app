@@ -10,13 +10,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
     <title>Document</title>
-    <link rel="stylesheet" href="<c:url value="resources/css/style.css"/>"/>
+    <link rel="stylesheet" href="<c:url value="../resources/css/style.css"/>"/>
 </head>
 <body>
 <header class="header--form-page">
     <%@include file="header.jsp" %>
-
-
 
     <div class="slogan container container--90">
         <div class="slogan--item">
@@ -59,13 +57,23 @@
 
     <div class="form--steps-container">
         <div class="form--steps-counter">Krok <span>1</span>/4</div>
-
-            <form:form id="form" method="post" modelAttribute="donation" action="/form2" >
+            <a name="form"></a>
+            <form:form id="form" method="post" modelAttribute="donation" action="/user/form2#form" >
 
             <div data-step="1" class="active">
                 <h3>Zaznacz co chcesz oddać:</h3>
 
-                <form:checkboxes path="categories" items="${categories}" itemLabel="name" element="div class='form-group'" />
+                <c:forEach items="${categories}" var="cat">
+                    <div class="form-group form-group--checkbox">
+                        <label>
+                            <input type="checkbox" name="categories" value="${cat.id}"/>
+                            <span class="checkbox"></span>
+                            <span class="description">${cat.name}</span>
+                        </label>
+                    </div>
+                </c:forEach>
+
+
                 </form:form>
                 <div class="form-group form-group--buttons">
                     <button type="button" class="btn btn-primary" id="submitButton">Dalej</button>

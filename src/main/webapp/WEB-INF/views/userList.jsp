@@ -7,12 +7,16 @@
 <table class="table" style="width:100%">
     <tr>
         <th>ID</th>
+        <th>Imie</th>
+        <th>Nazisko</th>
         <th>Email</th>
         <th>Enabled</th>
     </tr>
     <c:forEach items="${users}" var="user">
         <tr>
             <td><c:out value="${user.id}"/></td>
+            <td><c:out value="${user.firstName}"/></td>
+            <td><c:out value="${user.lastName}"/></td>
             <td><c:out value="${user.email}"/></td>
             <td><c:out value="${user.enabled}"/></td>
             <td><a href="/admin/users/edit/${user.id}"><button>Edytuj</button></a></td>

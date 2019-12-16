@@ -20,3 +20,4 @@
         </tr>
     </c:forEach>
 </table>
+<a href="/admin/institutions/add"><button>New Institution</button></a>

@@ -10,6 +10,7 @@ import pl.coderslab.charity.Model.Donation.DonationRepository;
 import pl.coderslab.charity.Model.Donation.DonationServiceImpl;
 import pl.coderslab.charity.Model.Institution.InstitutionRepository;
 import pl.coderslab.charity.Model.Institution.InstitutionServiceImpl;
+import pl.coderslab.charity.Model.UserEntity.UserServiceImp;
 
 import javax.validation.Valid;
 import java.time.LocalDateTime;
@@ -17,6 +18,7 @@ import java.time.LocalTime;
 
 
 @Controller
+@RequestMapping("/user")
 public class DonationController {
 
     private CategoryRepository categoryRepository;
@@ -27,6 +29,7 @@ public class DonationController {
         this.categoryRepository = categoryRepository;
         this.institutionService = institutionService;
         this.donationService = donationService;
+
     }
 
     @RequestMapping("/form")
@@ -78,7 +81,7 @@ public class DonationController {
     }
     @ModelAttribute
     public void addInstitutions(Model model) {
-        model.addAttribute("institutions", institutionService.findAll());
+        model.addAttribute("institutions", institutionService.findAllNotArchivized());
     }
 
 

@@ -8,6 +8,7 @@ import pl.coderslab.charity.Utils.EmailServiceImpl;
 import pl.coderslab.charity.Model.Authority.AuthorityEntity;
 import pl.coderslab.charity.Model.Token.TokenEntity;
 import pl.coderslab.charity.Model.Token.TokenRepository;
+import pl.coderslab.charity.Utils.Utils;
 
 import javax.transaction.Transactional;
 import java.util.List;
@@ -95,6 +96,10 @@ public class UserServiceImp {
     public List<UserEntity> getAdmins(){
         return userRepository.findAllAdmins();
     };
+
+    public Boolean isAcceptable(UserEntity user) {
+        return user.getPassword().equals(user.getPasswordConfirmation()) && Utils.checkPwd(user.getPassword()) && userRepository.findByEmail(user.getEmail()) == null;
+    }
 
     public UserEntity getCurrentUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();

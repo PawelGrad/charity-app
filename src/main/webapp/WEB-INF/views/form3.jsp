@@ -13,7 +13,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
     <title>Document</title>
 
-    <link rel="stylesheet" href="<c:url value="resources/css/style.css"/>"/>
+    <link rel="stylesheet" href="<c:url value="../resources/css/style.css"/>"/>
 </head>
 <body>
 <header class="header--form-page">
@@ -62,7 +62,7 @@
 
     <div class="form--steps-container">
         <div class="form--steps-counter">Krok <span>3</span>/4</div>
-
+        <a name="form">
         <form:form method="post" modelAttribute="donation">
             <div hidden>
             <form:checkboxes path="categories" items="${categories}" itemLabel="name" />
@@ -72,13 +72,27 @@
                 <!-- STEP 2 -->
             <div data-step="3" class="active">
                 <h3>Wybierz organizacje, której chcesz pomóc:</h3>
-                <form:select path="institution" items="${institutions}" itemLabel="name"/>
 
+
+
+                <c:forEach items="${institutions}" var="ins">
+
+                <div class="form-group form-group--checkbox">
+                    <label>
+                        <input type="radio" name="organization" value="${ins.id}" checked="checked"/>
+                        <span class="checkbox radio"></span>
+                        <span class="description">
+                  <div class="title">${ins.name}</div>
+                  <div class="subtitle">${ins.descritpion}</div>
+                </span>
+                    </label>
+                </div>
+                </c:forEach>
 
 
                 <div class="form-group form-group--buttons">
-                    <input type="submit" class="btn prev-step" value="Wstecz" formaction="/form2">
-                    <input type="submit" class="btn next-step" value="Dalej" formaction="/form4">
+                    <input type="submit" class="btn prev-step" value="Wstecz" formaction="/user/form2#form">
+                    <input type="submit" class="btn next-step" value="Dalej" formaction="/user/form4#form">
                 </div>
             </div>
         </form:form>

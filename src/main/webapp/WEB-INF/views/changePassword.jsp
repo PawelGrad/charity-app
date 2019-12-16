@@ -18,7 +18,6 @@
 <body>
 
 <form:form method="post" modelAttribute="user" action="/user/changePassword">
-
     <div class="form-group form-group--inline">
         <label hidden> Email: <form:input path="enabled" /> </label>
         <label hidden> Email: <form:input path="id" /> </label>
@@ -32,12 +31,9 @@
     <div class="form-group form-group--inline">
         <label> Haslo: <form:input path="password"/> </label>
     </div>
-
     <div class="form-group form-group--inline">
         <label> Haslo: <form:input path="passwordConfirmation"/> </label>
     </div>
-
-
 
     <div class="form-group form-group--buttons">
         <button type="submit" class="btn btn-primary">Edytuj</button>

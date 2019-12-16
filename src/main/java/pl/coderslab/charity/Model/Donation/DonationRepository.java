@@ -18,7 +18,7 @@ public interface DonationRepository  extends JpaRepository<DonationEntity, Long>
     void archivise(Long id);
 
     @Query(nativeQuery = true, value = "select * " +
-            "from donations where user_id = ? " +
+            "from donations where user_id = ? and archivised is not true " +
             "order by delivered desc, pick_up_date desc, pick_up_time desc, creation_time desc;")
     List<DonationEntity> myDonations(Long id);
 }

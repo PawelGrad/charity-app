@@ -77,7 +77,7 @@ public class AdminController {
 
     @PostMapping("/admins/add")
     public String processAddAdmin(@ModelAttribute UserEntity userEntity,BindingResult result){
-        if(result.hasErrors() || !userEntity.getPassword().equals(userEntity.getPasswordConfirmation()) || !Utils.checkPwd(userEntity.getPassword())){
+        if(result.hasErrors() || !userServiceImp.isAcceptable(userEntity)){
             return "redirect:/admin/admins/add";
         }
         userServiceImp.addAdmin(userEntity);
@@ -108,49 +108,9 @@ public class AdminController {
         return "redirect:/admin/admins/all";
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     @RequestMapping("/institutions/all")
     public String institutions(Model model){
-        model.addAttribute("institutions", institutionRepository.findAll());
+        model.addAttribute("institutions", institutionRepository.findNotArchivized());
         return "institutionList";
     }
 

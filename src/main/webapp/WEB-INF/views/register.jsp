@@ -37,15 +37,15 @@
         </div>
 
         <div class="form-group">
-            <form:input path="password" placeholder="Hasło"/>
+            <form:input path="password" type="password" placeholder="Hasło"/>
         </div>
 
         <div class="form-group">
-            <form:input path="passwordConfirmation" placeholder="Powtórz hasło"/>
+            <form:input path="passwordConfirmation" type="password" placeholder="Powtórz hasło"/>
         </div>
 
         <div class="form-group form-group--buttons">
-            <a href="login.html" class="btn btn--without-border">Zaloguj się</a>
+            <a href="/login" class="btn btn--without-border">Zaloguj się</a>
             <button class="btn" type="submit">Załóż konto</button>
         </div>
 

@@ -16,7 +16,7 @@
 
 </head>
 <body>
-
+${error}
 <form:form method="post" modelAttribute="user" action="/changePassword/${token}">
 
     <div class="form-group form-group--inline">
@@ -30,11 +30,11 @@
     </div>
 
     <div class="form-group form-group--inline">
-        <label> Haslo: <form:input path="password"/> </label>
+        <label> Haslo: <form:input type="password" path="password"/> </label>
     </div>
 
     <div class="form-group form-group--inline">
-        <label> Haslo: <form:input path="passwordConfirmation"/> </label>
+        <label> Haslo: <form:input type="password" path="passwordConfirmation"/> </label>
     </div>
 
 

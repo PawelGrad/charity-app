@@ -20,31 +20,23 @@
 <form:form method="post" modelAttribute="user" action="/user/edit">
 
     <div class="form-group form-group--inline">
-        <label hidden> Email: <form:input path="id" /> </label>
-    </div>
-
-    <div class="form-group form-group--inline">
-        <label hidden> Email: <form:input path="authorities" /> </label>
-    </div>
-
-    <div class="form-group form-group--inline">
         <label hidden> Email: <form:input path="enabled" /> </label>
+        <label hidden> Email: <form:input path="id" /> </label>
+        <label hidden> Email: <form:input path="authorities" /> </label>
+        <label hidden> Email: <form:input path="tokens" /> </label>
+        <label hidden> Haslo: <form:input path="password"/> </label>
+    </div>
+
+    <div class="form-group form-group--inline">
+        <label> Imie: <form:input path="firstName" /> </label>
+    </div>
+
+    <div class="form-group form-group--inline">
+        <label > Nazwisko: <form:input path="lastName"/> </label>
     </div>
 
     <div class="form-group form-group--inline">
         <label> Email: <form:input path="email" /> </label>
-    </div>
-
-    <div class="form-group form-group--inline">
-        <label> Email: <form:input path="firstName" /> </label>
-    </div>
-
-    <div class="form-group form-group--inline">
-        <label> Email: <form:input path="lastName" /> </label>
-    </div>
-
-    <div class="form-group form-group--inline">
-        <label hidden> Haslo: <form:input path="password"/> </label>
     </div>
 
 

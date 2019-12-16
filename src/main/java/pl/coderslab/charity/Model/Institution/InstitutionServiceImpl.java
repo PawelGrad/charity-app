@@ -22,6 +22,9 @@ public class InstitutionServiceImpl {
     public List<InstitutionEntity> findAll(){
         return institutionRepository.findAll();
     }
+    public List<InstitutionEntity> findAllNotArchivized(){
+        return institutionRepository.findNotArchivized();
+    }
 
     public Long countInstitutions(){
         return institutionRepository.countInstitutions().orElse(0L);

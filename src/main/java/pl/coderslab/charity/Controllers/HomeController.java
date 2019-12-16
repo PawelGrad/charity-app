@@ -47,9 +47,10 @@ public class HomeController {
 
     @PostMapping("/register")
     public String processRegister(@ModelAttribute UserEntity user, BindingResult result){
-        if(result.hasErrors() || !user.getPassword().equals(user.getPasswordConfirmation()) || !Utils.checkPwd(user.getPassword())){
+        if(result.hasErrors() || !userServiceImp.isAcceptable(user)){
             return "redirect:register";
         }
+
         userServiceImp.saveUser(user);
         return "login";
     }
@@ -74,11 +75,13 @@ public class HomeController {
     }
 
     @PostMapping("/restorePassword")
-    public String processRestorePassword(@RequestParam("email") String email){
+    public String processRestorePassword(@RequestParam("email") String email, Model model){
         UserEntity user = userServiceImp.getUserByEmail(email);
-        if(user != null) {
-            userServiceImp.sendPasswordResetEmail(user);
+        if(user == null) {
+            model.addAttribute("error", "Uzytkownik nie isnieje");
+            return "passwordRestorationEmail";
         }
+        userServiceImp.sendPasswordResetEmail(user);
         return "index";
     }
 
@@ -86,7 +89,9 @@ public class HomeController {
     public String changePassword(@PathVariable String uuid, Model model){
         TokenEntity token = tokenRepository.findByUuid(uuid);
         if (token != null && !token.isExprired()) {
-            model.addAttribute("user", token.getUser());
+            UserEntity user = token.getUser();
+            user.setPassword("");
+            model.addAttribute("user", user);
             model.addAttribute("token", token.getUuid());
             return "passwordRestoration";
         } else {
@@ -96,15 +101,25 @@ public class HomeController {
     }
 
     @PostMapping("/changePassword/{uuid}")
-    public String processChangePassword(@PathVariable String uuid, @ModelAttribute UserEntity user, BindingResult result){
-        if(result.hasErrors() || !user.getPassword().equals(user.getPasswordConfirmation()) || !Utils.checkPwd(user.getPassword())){
+    public String processChangePassword(@PathVariable String uuid, @ModelAttribute UserEntity user, BindingResult result, Model model){
+        if(result.hasErrors() || !Utils.checkPwd(user.getPassword())){
             return "redirect:/changePassword/"+uuid ;
+        } else if (!user.getPassword().equals(user.getPasswordConfirmation())){
+            user.setPassword("");
+            model.addAttribute("user", user);
+            model.addAttribute("token", tokenRepository.findByUuid(uuid));
+            model.addAttribute("error", "Podane hasla nie sa takie same");
+            return "passwordRestoration";
         }
         user.getTokens().remove(tokenRepository.findByUuid(uuid));
         userServiceImp.updatePassword(user);
         return "redirect:/login";
     }
 
+    @ModelAttribute
+    public void currentUser(Model model) {
+        model.addAttribute("user", userServiceImp.getCurrentUser());
+    }
 
 
 

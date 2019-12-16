@@ -1,7 +1,12 @@
 package pl.coderslab.charity.Utils;
 
+import org.springframework.stereotype.Component;
+import pl.coderslab.charity.Model.UserEntity.UserEntity;
+import pl.coderslab.charity.Model.UserEntity.UserServiceImp;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
 
 public class Utils {
 

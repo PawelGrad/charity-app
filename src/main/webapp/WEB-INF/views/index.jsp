@@ -49,7 +49,7 @@
 
     </div>
 </section>
-
+<a name="how">
 <section class="steps">
     <h2>Wystarczą 4 proste kroki</h2>
 
@@ -78,7 +78,8 @@
 
     <a href="#" class="btn btn--large">Załóż konto</a>
 </section>
-
+</a>
+<a name="about-us">
 <section class="about-us">
     <div class="about-us--text">
         <h2>O nas</h2>
@@ -89,7 +90,8 @@
     <div class="about-us--image"><img src="<c:url value="resources/images/about-us.jpg"/>" alt="People in circle"/>
     </div>
 </section>
-
+</a>
+<a name="organizations">
 <section class="help">
     <h2>Komu pomagamy?</h2>
 
@@ -119,8 +121,9 @@
         </ul>
 
     </div>
-
 </section>
+</a>
+
 <footer>
 <%@include file="footer.jsp" %>
 </footer>

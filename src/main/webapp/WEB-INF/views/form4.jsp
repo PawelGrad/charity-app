@@ -13,7 +13,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
     <title>Document</title>
 
-    <link rel="stylesheet" href="<c:url value="resources/css/style.css"/>"/>
+    <link rel="stylesheet" href="<c:url value="../resources/css/style.css"/>"/>
 </head>charity-donation
 <body>
 <header class="header--form-page">
@@ -61,8 +61,8 @@
 
     <div class="form--steps-container">
         <div class="form--steps-counter">Krok <span>4</span>/4</div>
-
-        <form:form method="post" modelAttribute="donation" id="form" action="/saveForm">
+        <a name="form">
+        <form:form method="post" modelAttribute="donation" id="form" action="/user/saveForm">
 
             <div hidden>
                 <form:checkboxes path="categories" items="${categories}" itemLabel="name" />

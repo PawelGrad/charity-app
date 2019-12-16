@@ -14,8 +14,8 @@ import pl.coderslab.charity.Model.UserEntity.UserServiceImp;
 @RequestMapping("/user")
 public class UserController {
 
-    UserServiceImp userServiceImp;
-    DonationServiceImpl donationService;
+    private UserServiceImp userServiceImp;
+    private DonationServiceImpl donationService;
 
     public UserController(UserServiceImp userServiceImp, DonationServiceImpl donationService) {
         this.userServiceImp = userServiceImp;
@@ -43,7 +43,9 @@ public class UserController {
     }
     @GetMapping("/changePassword")
     public String changePassword(Model model){
-        model.addAttribute("user",userServiceImp.getCurrentUser());
+        UserEntity user = userServiceImp.getCurrentUser();
+        user.setPassword("");
+        model.addAttribute("user",user);
         return "changePassword";
     }
 
@@ -72,6 +74,11 @@ public class UserController {
     public String donationDetailsConfirm(@RequestParam("id") Long id){
         donationService.flipDelivered(id);
         return "redirect:/user/donations";
+    }
+
+    @ModelAttribute
+    public void currentUser(Model model) {
+        model.addAttribute("user", userServiceImp.getCurrentUser());
     }
 
 
