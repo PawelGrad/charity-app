@@ -11,6 +11,7 @@ import pl.coderslab.charity.Model.Token.TokenRepository;
 import pl.coderslab.charity.Utils.Utils;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -39,11 +40,9 @@ public class UserServiceImp {
         emailService.accountActivationEmail(user.getEmail(),token.getUuid());
     }
 
-    public void activateAccount(String uuid) {
-        TokenEntity token = tokenRepository.findByUuid(uuid);
-        UserEntity user = token.getUser();
+    public void activateAccount(UserEntity user) {
         user.setEnabled(true);
-        user.getTokens().remove(token);
+        user.setTokens(new ArrayList<>());
         userRepository.save(user);
 
     }
@@ -64,10 +63,9 @@ public class UserServiceImp {
     };
 
 
-    public void blockUser(Long id){
-        UserEntity userEntity = userRepository.findById(id).orElse(null); //popraw
-        userEntity.setEnabled(false);
-        userRepository.save(userEntity);
+    public void blockUser(UserEntity user){
+        user.setEnabled(false);
+        userRepository.save(user);
     }
 
     public void updatePassword(UserEntity user) {
@@ -75,32 +73,27 @@ public class UserServiceImp {
         userRepository.save(user);
     }
 
-    public void removeUser(Long id){
-        userRepository.deleteById(id);
-    }
-
-    public void updateUser(UserEntity user){
-        userRepository.save(user);
-    }
-
-    public UserEntity getUserById(Long id) {
-        return userRepository.findById(id).orElse(null);
-    }
-
-    public UserEntity getUserByEmail(String email) { return userRepository.findByEmail(email);}
-
-    public List<UserEntity> getUsers(){
-        return userRepository.findAllUsers();
-    };
-
-    public List<UserEntity> getAdmins(){
-        return userRepository.findAllAdmins();
-    };
-
     public Boolean isAcceptable(UserEntity user) {
         return user.getPassword().equals(user.getPasswordConfirmation()) && Utils.checkPwd(user.getPassword()) && userRepository.findByEmail(user.getEmail()) == null;
     }
 
+
+    public void removeUser(Long id){
+        userRepository.deleteById(id);
+    }
+    public void updateUser(UserEntity user){
+        userRepository.save(user);
+    }
+    public UserEntity getUserById(Long id) {
+        return userRepository.findById(id).orElse(null);
+    }
+    public UserEntity getUserByEmail(String email) { return userRepository.findByEmail(email);}
+    public List<UserEntity> getUsers(){
+        return userRepository.findAllUsers();
+    };
+    public List<UserEntity> getAdmins(){
+        return userRepository.findAllAdmins();
+    };
     public UserEntity getCurrentUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         return userRepository.findByEmail(authentication.getName());}

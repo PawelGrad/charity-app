@@ -44,7 +44,7 @@ public class AdminController {
 
     @GetMapping("/users/block/{id}")
     public String blockUser(@PathVariable Long id){
-        userServiceImp.blockUser(id);
+        userServiceImp.blockUser(userServiceImp.getUserById(id));
         return "redirect:/admin/users/all";
     }
 
@@ -131,7 +131,7 @@ public class AdminController {
 
     @GetMapping("/institutions/remove/{id}")
     public String removeInstitution(@PathVariable Long id){
-        institutionService.remove(id);
+        institutionService.remove(institutionService.findById(id));
         return "redirect:/admin/institutions/all";
     }
 

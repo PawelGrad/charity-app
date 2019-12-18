@@ -25,13 +25,12 @@ public class InstitutionServiceImpl {
     public List<InstitutionEntity> findAllNotArchivized(){
         return institutionRepository.findNotArchivized();
     }
-
     public Long countInstitutions(){
         return institutionRepository.countInstitutions().orElse(0L);
     }
-
-    public void remove(Long id){
-        donationRepository.archivise(id);
-        institutionRepository.archivise(id);
+    public InstitutionEntity findById(Long id) { return institutionRepository.findById(id).orElse(null);}
+    public void remove(InstitutionEntity institutionEntity){
+        donationRepository.archivise(institutionEntity.getId());
+        institutionRepository.archivise(institutionEntity.getId());
     }
 }

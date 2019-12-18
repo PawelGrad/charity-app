@@ -24,12 +24,13 @@ public class DonationController {
     private CategoryRepository categoryRepository;
     private InstitutionServiceImpl institutionService;
     private DonationServiceImpl donationService;
+    private UserServiceImp userServiceImp;
 
-    public DonationController(CategoryRepository categoryRepository, InstitutionServiceImpl institutionService, DonationServiceImpl donationService) {
+    public DonationController(CategoryRepository categoryRepository, InstitutionServiceImpl institutionService, DonationServiceImpl donationService, UserServiceImp userServiceImp) {
         this.categoryRepository = categoryRepository;
         this.institutionService = institutionService;
         this.donationService = donationService;
-
+        this.userServiceImp = userServiceImp;
     }
 
     @RequestMapping("/form")
@@ -71,6 +72,7 @@ public class DonationController {
         if(result.hasErrors()){
             return "redirect:form";
         }
+        donation.setUser(userServiceImp.getCurrentUser());
         donationService.newDonation(donation);
         return "form-confirmation";
     }

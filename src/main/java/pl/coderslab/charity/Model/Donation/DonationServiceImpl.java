@@ -12,23 +12,20 @@ import java.util.List;
 public class DonationServiceImpl {
 
     private DonationRepository donationRepository;
-    private UserServiceImp userService;
 
-    public DonationServiceImpl(DonationRepository donationRepository, UserServiceImp userServiceImp) {
+
+    public DonationServiceImpl(DonationRepository donationRepository) {
         this.donationRepository = donationRepository;
-        this.userService = userServiceImp;
     }
 
     public void newDonation(DonationEntity donation){
         donation.setCreationTime(LocalDateTime.now());
         donation.setDelivered(false);
         donation.setArchivised(false);
-        donation.setUser(userService.getCurrentUser());
         donationRepository.save(donation);
     }
 
-    public void flipDelivered(Long id){
-        DonationEntity donation = findById(id);
+    public void flipDelivered(DonationEntity donation){
         if(donation.getDelivered()) {
             donation.setDelivered(false);
             donation.setDeliveredTime(null);
@@ -45,13 +42,12 @@ public class DonationServiceImpl {
     public List<DonationEntity> myDonations(Long id){
         return donationRepository.myDonations(id);
     }
-
     public Long countBags(){
         return donationRepository.countBags().orElse(0L);
     }
-
     public List<DonationEntity> findAll(){
         return donationRepository.findAll();
     }
+    public void save(DonationEntity donation) { donationRepository.save(donation); }
 
 }

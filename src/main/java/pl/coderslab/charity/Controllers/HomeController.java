@@ -64,7 +64,7 @@ public class HomeController {
     public String activateAccount(@PathVariable String uuid){
         TokenEntity token = tokenRepository.findByUuid(uuid);
         if (token != null) {
-            userServiceImp.activateAccount(uuid);
+            userServiceImp.activateAccount(tokenRepository.findByUuid(uuid).getUser());
         }
         return "redirect:/login";
     }

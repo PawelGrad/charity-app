@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import pl.coderslab.charity.Model.Donation.DonationEntity;
 import pl.coderslab.charity.Model.Donation.DonationServiceImpl;
 import pl.coderslab.charity.Model.UserEntity.UserEntity;
 import pl.coderslab.charity.Model.UserEntity.UserServiceImp;
@@ -72,7 +73,8 @@ public class UserController {
 
     @PostMapping("/donations/details/confirm")
     public String donationDetailsConfirm(@RequestParam("id") Long id){
-        donationService.flipDelivered(id);
+        DonationEntity donation = donationService.findById(id);
+        donationService.flipDelivered(donation);
         return "redirect:/user/donations";
     }
 
